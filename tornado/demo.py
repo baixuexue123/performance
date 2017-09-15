@@ -9,6 +9,9 @@ from tornado.options import define, options, parse_command_line
 class IndexHandler(tornado.web.RequestHandler):
     @gen.coroutine
     def get(self):
+        yield gen.sleep(0.1)
+        self.set_status(200)
+        self.set_header("Content-Type", "text/html")
         self.write("<p>Hello World</p>")
 
 
@@ -25,10 +28,9 @@ def main():
 
     app = Application()
     server = tornado.httpserver.HTTPServer(app)
-    server.listen(options.port, address='127.0.0.1')
+    server.listen(options.port, address="127.0.0.1")
     tornado.ioloop.IOLoop.current().start()
 
 
 if __name__ == "__main__":
     main()
-
