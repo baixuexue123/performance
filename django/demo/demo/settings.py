@@ -1,18 +1,13 @@
 import os
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'q(+*eqccci+m%s1&y42k8%e-#)-u_z3=0d!$7x*plwllw55%4p'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-
-# Application definition
 
 INSTALLED_APPS = [
     # 'django.contrib.admin',
@@ -72,6 +67,5 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 STATIC_URL = '/static/'
