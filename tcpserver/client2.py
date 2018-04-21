@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import print_function
-
+import signal
 import logging
 from time import time
 
@@ -12,17 +12,17 @@ from tornado.options import options, define
 from tornado.tcpclient import TCPClient
 
 define("host", default="localhost", help="TCP server host")
-define("port", default=9888, help="TCP port to connect to")
+define("port", default=8080, help="TCP port to connect to")
 define("message", default="ping", help="Message to send")
 
 logger = logging.getLogger(__name__)
 
 
 @gen.coroutine
-def send_message(flag):
+def main():
     stream = yield TCPClient().connect(options.host, options.port)
     while 1:
-        message = options.message + ': %s : %s\n' % (time(), flag)
+        message = options.message + ': %s\n' % time()
         try:
             yield stream.write(message.encode())
             print("Sent to server:", options.message)
@@ -34,15 +34,19 @@ def send_message(flag):
         except Exception as e:
             print(e)
 
-        yield gen.sleep(0.5)
+        yield gen.sleep(1.0)
+
+
+def sig_handler(sig, frame):
+    logger.warning('Caught signal: %s', sig)
+    IOLoop.current().add_callback_from_signal(IOLoop.current().stop)
 
 
 if __name__ == "__main__":
     options.parse_command_line()
-
     io_loop = IOLoop.current()
 
-    for i in range(100):
-        io_loop.add_future(send_message(i), callback=lambda: None)
+    signal.signal(signal.SIGTERM, sig_handler)
+    signal.signal(signal.SIGINT, sig_handler)
 
-    io_loop.start()
+    IOLoop.current().run_sync(main)

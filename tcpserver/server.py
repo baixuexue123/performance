@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function
 import logging
+import signal
 
 from tornado import gen
 from tornado.ioloop import IOLoop, PeriodicCallback
@@ -30,6 +31,11 @@ class EchoServer(TCPServer):
             except Exception as e:
                 print(e)
 
+
+def handle_sigchld(sig, frame):
+    IOLoop.current().add_callback_from_signal(IOLoop.current().stop)
+
+
 def main():
     parse_command_line()
 
@@ -37,6 +43,8 @@ def main():
     server.listen(options.port)
     logger.info("Listening on TCP port %d", options.port)
     io_loop = IOLoop.current()
+
+    signal.signal(signal.SIGCHLD, handle_sigchld)
 
     def callback():
         print('---------------------')
