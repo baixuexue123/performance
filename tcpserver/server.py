@@ -30,6 +30,7 @@ class EchoServer(TCPServer):
                 break
             except Exception as e:
                 print(e)
+                yield gen.sleep(1.0)
 
 
 def handle_sigchld(sig, frame):

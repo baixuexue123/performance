@@ -14,7 +14,6 @@ from tornado.options import parse_command_line
 
 
 class Handler(object):
-
     clients = set()
 
     def __init__(self, stream, address):
@@ -35,6 +34,7 @@ class Handler(object):
         for c in Handler.clients:
             yield c.send_message(data)
 
+    @gen.coroutine
     def send_message(self, data):
         return self._stream.write(data)
 
@@ -47,7 +47,7 @@ class Handler(object):
         while 1:
             try:
                 message = yield self.read_message()
-                yield self.broadcast_messages(message)
+                self.broadcast_messages(message)
             except StreamClosedError:
                 print("Lost client at host %s" % str(self._address))
                 break
@@ -61,7 +61,7 @@ class ChatServer(TCPServer):
         gen_log.info("New connection : %s %s" % (address, stream))
         gen_log.info("clients num is: %s" % len(Handler.clients))
         h = Handler(stream, address)
-        yield h.serve()
+        h.serve()
 
 
 def sig_handler(sig, frame):

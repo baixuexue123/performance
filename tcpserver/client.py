@@ -12,7 +12,7 @@ from tornado.options import options, define
 from tornado.tcpclient import TCPClient
 
 define("host", default="localhost", help="TCP server host")
-define("port", default=9888, help="TCP port to connect to")
+define("port", default=8080, help="TCP port to connect to")
 define("message", default="ping", help="Message to send")
 
 logger = logging.getLogger(__name__)
@@ -43,6 +43,8 @@ if __name__ == "__main__":
     io_loop = IOLoop.current()
 
     for i in range(100):
-        io_loop.add_future(send_message(i), callback=lambda: None)
+        # io_loop.spawn_callback(send_message, i)
+        # io_loop.add_future(send_message(i), callback=lambda: None)
+        send_message(i)
 
     io_loop.start()
