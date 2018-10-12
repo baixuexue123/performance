@@ -3,7 +3,7 @@ import asyncio
 import uvloop
 
 
-async def handle_echo(reader, writer):
+async def echo(reader, writer):
     data = await reader.readuntil()
     message = data.decode()
     addr = writer.get_extra_info('peername')
@@ -19,7 +19,7 @@ async def handle_echo(reader, writer):
 
 loop = uvloop.new_event_loop()
 # loop = asyncio.get_event_loop()
-coro = asyncio.start_server(handle_echo, '127.0.0.1', 8888, loop=loop)
+coro = asyncio.start_server(echo, '127.0.0.1', 8888, loop=loop)
 server = loop.run_until_complete(coro)
 
 # Serve requests until Ctrl+C is pressed
