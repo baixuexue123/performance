@@ -39,7 +39,7 @@ server.on('connection', function(sock) {
      * 服务端收到客户端发出的关闭连接请求时，会触发end事件
      * 这个时候客户端没有真正的关闭，只是开始关闭；
      * 当真正的关闭的时候，会触发close事件；
-     * */
+     **/
     sock.on('end', function() {
         console.log('Closing connection with the client');
     });

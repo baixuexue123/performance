@@ -7,7 +7,8 @@ from gevent.pool import Pool
 def echo_handler(sock, address):
     print('New connection from %s:%s' % address)
     for l in sock.makefile('r'):
-        sock.sendall(l)
+        print(address, " : ", l)
+        sock.sendall(l.encode())
 
 
 if __name__ == '__main__':
