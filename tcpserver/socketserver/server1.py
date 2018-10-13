@@ -24,7 +24,8 @@ def serve(addr):
     sock.bind(addr)
     sock.listen(50)
     while True:
-        conn, _ = sock.accept()
+        conn, peer = sock.accept()
+        print('New connection from ', peer)
         threading.Thread(target=echo, args=(conn,)).start()
 
 

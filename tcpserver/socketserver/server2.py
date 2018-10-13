@@ -42,15 +42,6 @@ class ServerHandler(object):
             EchoHandler(conn)
 
 
-def serve(addr):
-    sock = socket.socket()
-    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    sock.bind(addr)
-    sock.listen(50)
-    ServerHandler(sock)
-    loop()
-
-
 class EchoHandler(object):
     def __init__(self, sock):
         sock.setblocking(0)
@@ -94,6 +85,15 @@ class EchoHandler(object):
                     self.buf[0] = data
         finally:
             self._update()
+
+
+def serve(addr):
+    sock = socket.socket()
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    sock.bind(addr)
+    sock.listen(50)
+    ServerHandler(sock)
+    loop()
 
 
 if __name__ == '__main__':
