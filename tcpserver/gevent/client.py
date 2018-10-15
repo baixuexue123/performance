@@ -8,15 +8,18 @@ import socket
 import time
 
 
-def client():
+def client(i):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect(('localhost', 8888))
+    sock.connect(('127.0.0.1', 8888))
+    client_name = 'thread-%s' % i
     while True:
-        sock.send(b'ping-pong\n')
-        data = sock.recv(1024)
-        print(time.time(), " : ", data)
+        st = time.time()
+        sock.send(b'ping\r\n')
+        reply = sock.recv(1024)
+        elapsed = time.time()-st
+        print(client_name, ' - ', elapsed, ' REPLY: ', reply)
         gevent.sleep(1)
 
 
 if __name__ == '__main__':
-    gevent.wait([gevent.spawn(client) for _ in range(3000)])
+    gevent.wait([gevent.spawn(client, i) for i in range(1000)])
