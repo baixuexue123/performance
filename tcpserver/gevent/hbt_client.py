@@ -46,7 +46,7 @@ def client(i):
 
 if __name__ == '__main__':
     start = time.time()
-    clients = 5000
+    clients = 10000
     gevent.wait([gevent.spawn(client, i) for i in range(clients)])
     print('clients: ', clients)
     print('='*32, time.time()-start, '='*32)
