@@ -33,8 +33,6 @@ server.on('connection', function(sock) {
         console.log('CLOSED - ' + sock.remoteAddress + ' ' + sock.remotePort);
     });
 
-    // When the client requests to end the TCP connection with the server, the server
-    // ends the connection.
     /**
      * 服务端收到客户端发出的关闭连接请求时，会触发end事件
      * 这个时候客户端没有真正的关闭，只是开始关闭；

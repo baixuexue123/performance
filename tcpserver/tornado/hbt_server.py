@@ -36,7 +36,8 @@ def main():
     server = HbtServer()
     server.listen(8888, address='127.0.0.1')
     print("Listening on TCP port:", 8888)
-    signal.signal(signal.SIGCHLD, handle_sigchld)
+    signal.signal(signal.SIGTERM, handle_sigchld)
+    signal.signal(signal.SIGINT, handle_sigchld)
     IOLoop.current().start()
 
 

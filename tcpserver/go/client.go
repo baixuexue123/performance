@@ -80,8 +80,6 @@ func Client(addr string, cnt, n int, wg *sync.WaitGroup) {
 				fmt.Println(name, "ERROR: ", msg)
 				break
 			}
-		} else {
-			break
 		}
 		elapsed = append(elapsed, time.Since(st))
 		time.Sleep(1 * time.Second)
@@ -117,7 +115,6 @@ func main() {
 	fmt.Println("Clients: ", num)
 	fmt.Println("======================", time.Since(start), "======================")
 	fmt.Println("********************** TOTAL **********************")
-	fmt.Println(TOTAL)
 	max, min, avg := MaxMinAvg(TOTAL)
 	fmt.Printf("MAX: %.3f AVG: %.3f MIN: %.3f\n", max.Seconds(), avg.Seconds(), min.Seconds())
 	fmt.Println("********************** MAX **********************")

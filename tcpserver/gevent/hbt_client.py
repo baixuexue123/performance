@@ -20,7 +20,7 @@ def client(i):
     cnt = 10
     reader = sock.makefile('rb', newline='\r\n')
     start = time.time()
-    while True:
+    for _ in range(cnt):
         st = time.time()
         sock.send(b'ping\r\n')
         reply = reader.readline()
@@ -28,10 +28,7 @@ def client(i):
             print(client_name, ' - ', time.time()-st, ' ERROR: ', reply)
             break
         elapsed.append(time.time() - st)
-        cnt -= 1
-        if cnt <= 0:
-            break
-        gevent.sleep(1)
+        time.sleep(1)
 
     reader.close()
     sock.close()
@@ -46,13 +43,13 @@ def client(i):
 
 if __name__ == '__main__':
     start = time.time()
-    clients = 10000
+    clients = 5000
     gevent.wait([gevent.spawn(client, i) for i in range(clients)])
     print('clients: ', clients)
-    print('='*32, time.time()-start, '='*32)
+    print('='*32, '%.4f' % (time.time()-start), '='*32)
     print('*'*24, 'TOTAL', '*'*24)
-    print('MAX: %s\nAVG: %s\nMIN: %s\n' % (max(TOTAL), (sum(TOTAL)/len(TOTAL)), min(TOTAL)))
+    print('MAX: %.4f\nAVG: %.4f\nMIN: %.4f\n' % (max(TOTAL), (sum(TOTAL)/len(TOTAL)), min(TOTAL)))
     print('*'*24, 'MAX', '*'*24)
-    print('MAX: %s\nAVG: %s\nMIN: %s\n' % (max(MAX), (sum(MAX)/len(MAX)), min(MAX)))
+    print('MAX: %.4f\nAVG: %.4f\nMIN: %.4f\n' % (max(MAX), (sum(MAX) / len(MAX)), min(MAX)))
     print('*'*24, 'AVG', '*'*24)
-    print('MAX: %s\nAVG: %s\nMIN: %s\n' % (max(AVG), (sum(AVG)/len(AVG)), min(AVG)))
+    print('MAX: %.4f\nAVG: %.4f\nMIN: %.4f\n' % (max(AVG), (sum(AVG) / len(AVG)), min(AVG)))

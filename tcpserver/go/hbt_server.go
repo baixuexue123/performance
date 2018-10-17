@@ -3,10 +3,12 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"flag"
 	"fmt"
 	"log"
 	"net"
 )
+
 
 // dropCR drops a terminal \r from the data.
 func dropCR(data []byte) []byte {
@@ -35,28 +37,31 @@ func ScanCRLF(data []byte, atEOF bool) (advance int, token []byte, err error) {
 var reply = []byte("pong\r\n")
 
 func HbtHandler(c net.Conn) {
-	fmt.Println("New Connection from ", c.RemoteAddr().String())
+	peername := c.RemoteAddr().String()
+	fmt.Println("New Connection from ", peername)
 	defer c.Close()
 	scanner := bufio.NewScanner(c)
 	scanner.Split(ScanCRLF)
 	for scanner.Scan() {
 		msg := scanner.Text()
 		if msg == "ping" {
-			_, err := c.Write(reply)
-			if err != nil {
-				log.Println(err)
-				break
-			}
+			c.Write(reply)
 		} else {
-			fmt.Println("Connection: ", c.RemoteAddr().String(), "ERROR: ", msg)
+			fmt.Println("Connection: ", peername, "ERROR: ", msg)
 			break
 		}
 	}
-	fmt.Println("Connection: ", c.RemoteAddr().String(), "lost")
+	fmt.Println("Connection: ", peername, "lost")
 }
 
 func main() {
-	l, err := net.Listen("tcp", "127.0.0.1:8888")
+	var host string
+	var port string
+	flag.StringVar(&host, "host", "127.0.0.1", "主机")
+	flag.StringVar(&port, "port", "8888", "端口")
+	flag.Parse()
+
+	l, err := net.Listen("tcp", fmt.Sprintf("%s:%s", host, port))
 	if err != nil {
 		log.Fatal(err)
 	}
