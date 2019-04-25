@@ -14,7 +14,7 @@ def client(i):
     client_name = 'thread-%s' % i
     while True:
         st = time.time()
-        sock.send(b'ping\r\n')
+        sock.send(b'ping\n')
         reply = sock.recv(1024)
         elapsed = time.time()-st
         print(client_name, ' - ', elapsed, ' REPLY: ', reply)
@@ -22,4 +22,4 @@ def client(i):
 
 
 if __name__ == '__main__':
-    gevent.wait([gevent.spawn(client, i) for i in range(1000)])
+    gevent.wait([gevent.spawn(client, i) for i in range(2)])
