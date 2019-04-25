@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return '<p>100Credit--Api</p>'
+    return '<p>xxx--xxx</p>'
 
 
 if __name__ == '__main__':
