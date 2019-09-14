@@ -1,2 +1,2 @@
 # performance
-HttpServer and TCPServer framework performance test
+HttpServer, TCPServer, thrift framework performance test

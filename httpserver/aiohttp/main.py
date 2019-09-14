@@ -17,7 +17,7 @@ async def handle(request):
 app = web.Application()
 app.router.add_get('/', handle)
 loop = uvloop.new_event_loop()
-web.run_app(app, host='127.0.0.1', port=8000, loop=loop)
+web.run_app(app, host='127.0.0.1', port=8000)
 
 
 # ab -n 10000 -c 1000 http://127.0.0.1:8000/
