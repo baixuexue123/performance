@@ -32,10 +32,15 @@ def main():
     threads = []
     for url in urls:
         threads.append(gevent.spawn(http_get, url))
-    gevent.joinall(threads)
+    total = 0
+    for t in gevent.joinall(threads):
+        url, resp, t = t.get()
+        print(url, resp, t)
+        total += t
+    return total
 
 
 if __name__ == '__main__':
     st = time.time()
-    main()
+    print(main())
     print(time.time() - st)
