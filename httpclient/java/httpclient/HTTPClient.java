@@ -6,12 +6,10 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
 
-import java.lang.Exception;
-
 public class HTTPClient {
     public static void main(String[] args) {
         try {
-            URL url = new URL("http://www.qq.com");
+            URL url = new URL("http://www.sohu.com");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setUseCaches(false);
@@ -22,7 +20,9 @@ public class HTTPClient {
             // 连接并发送HTTP请求:
             conn.connect();
             // 判断HTTP响应是否200:
-            if (conn.getResponseCode() != 200) {
+            int responseCode = conn.getResponseCode();
+            System.out.println(responseCode);
+            if (responseCode != 200) {
                 throw new RuntimeException("bad response");
             }
             // 获取所有响应Header:
@@ -32,6 +32,7 @@ public class HTTPClient {
             }
             // 获取响应内容:
             InputStream input = conn.getInputStream();
+            System.out.printf("content-length: %d", input.toString().length());
         } catch (Exception e) {
             System.out.println(e);
         } finally {

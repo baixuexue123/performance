@@ -54,3 +54,5 @@ ENV/
 
 .idea
 .vscode
+
+*.class
