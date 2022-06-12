@@ -22,4 +22,4 @@ def client(i):
 
 
 if __name__ == '__main__':
-    gevent.wait([gevent.spawn(client, i) for i in range(2)])
+    gevent.wait([gevent.spawn(client, i) for i in range(10)])
