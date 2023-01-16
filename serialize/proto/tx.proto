@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option go_package = "tx";
+
+package tx;
+
+enum TxType {
+  LEGACY = 0;
+  AccessList = 1;
+  DYNAMIC_FEE = 2;
+};
+
+message AccessTuple {
+  string address = 1;
+  repeated string storageKeys = 2;
+}
+
+message Transaction {
+  string sender = 1;
+  string to = 2;
+  string value = 3;
+  optional string gasPrice = 4;
+  uint64 gas = 5;
+  optional string maxFeePerGas = 6;
+  optional string maxPriorityFeePerGas = 7;
+  uint64 nonce = 8;
+  string data = 9;
+  repeated AccessTuple accessList = 10;
+  TxType type = 11;
+}
