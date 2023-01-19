@@ -22,8 +22,9 @@ def benchmark(name):
         Transaction().ParseFromString(s)
     print(name, time.time() - start)
 
-# TBinaryProtocolFactory 220.84613394737244
-
 
 if __name__ == '__main__':
-    benchmark("thrift")
+    from google.protobuf.internal import api_implementation
+    print(api_implementation.Type())
+
+    benchmark("protobuf")
